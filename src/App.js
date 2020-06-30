@@ -9,8 +9,7 @@ class App extends React.Component{
     currentDecks:[],
     currentCards:[],
     newUser:{},
-    cardOrder:[],
-    showCards: false
+    cardOrder:[]
   }
   url = 'http://localhost:3000/api/v1/users'
 
@@ -35,13 +34,15 @@ class App extends React.Component{
     )
   }
 
+
   render(){
     return (
       <div>
         {this.state.currentUser==={}? <Login handleClick={this.handleClick}/>: <Home 
         user={this.state.currentUser}
         decks={this.state.currentDecks}
-        cards={this.state.currentCards}/>}
+        cards={this.state.currentCards}
+        />}
       </div>
     )
   }

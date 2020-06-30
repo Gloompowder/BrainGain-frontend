@@ -7,7 +7,7 @@ class Home extends React.Component{
         return(
             <div>
                 <NavBar user={this.props.user}/>
-                <DeckDiv user={this.props.user} decks={this.props.decks} cards={this.props.cards}/>
+                <DeckDiv user={this.props.user} decks={this.props.decks} cards={this.props.cards} />
             </div>
         )
     }
