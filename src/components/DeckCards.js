@@ -1,36 +1,44 @@
 import React from 'react'
 import CardsDiv from '../containers/CardsDiv'
+import EditDeckCard from './EditDeckCard'
 
 class DeckCards extends React.Component{
-    constructor(props){
-        super(props)
-        this.state={
-            showCards: false
+
+    conditionalRender(){
+        if (this.props.showCards === true && this.props.editDeck === false ){
+            return(
+            <CardsDiv 
+            toggleShow={this.props.toggleShow}
+            editDeck={this.props.editDeck}
+            cards={this.props.cards}
+            user={this.props.user}
+            deck={this.props.deck}/>
+        )
+        } else if(this.props.showCards === false && this.props.editDeck === true){
+             return(
+                <EditDeckCard
+                toggleShow={this.props.toggleShow}
+                editDeck={this.props.editDeck}
+                cards={this.props.cards}
+                user={this.props.user}
+                deck={this.props.deck}/>
+             )
+        } else {
+            return(
+                <form className={`${this.props.deck.id}`} >
+                <h3>{this.props.deck.name}</h3>
+                <button className="Edit" onClick={this.props.editDeck}>Edit</button>
+                <button className="Cards" onClick={this.props.toggleShow}>Cards</button>
+            </form>
+            )
         }
-        this.toggleShow=this.toggleShow.bind(this)
     }
 
 
-    toggleShow(event){
-        event.preventDefault()
-        if (event.target.className === "Cards"||event.target.className==="Deck"){
-            if (this.state.showCards === false){this.setState({showCards: true})}
-        else {this.setState({showCards: false})}
-        }
-        this.state.showCards === false ? this.setState({showCards: true}) : this.setState({showCards: false})
-    }
     render(){
         return(
-        <div>{(this.state.showCards === true ? <CardsDiv 
-        toggleShow={this.toggleShow}
-        cards={this.props.cards}
-        user={this.props.user}
-        deck={this.props.deck}/> :
-            <form className={`${this.props.deck.id}`} onClick={this.toggleShow}>
-            <h3>{this.props.deck.name}</h3>
-            <button>Edit</button>
-            <button className="Cards">Cards</button>
-        </form>)}
+        <div>
+            {this.conditionalRender()}
         </div>
         )
     }
