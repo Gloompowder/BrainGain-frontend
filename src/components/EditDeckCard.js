@@ -5,32 +5,37 @@ class EditDeckCard extends React.Component{
         deckName:""
     }
 
-    deckURL="http://localhost:3000/decks"
+    deckURL="http://localhost:3000/api/v1/decks"
+    url="http://localhose:3000/api/v1/users"
 
-    submitRes=(event)=>{
-        event.preventDefault()
-        if(event.target.className==="Submit"){
-            console.log(this.state.deckName, this.props.deck.id)
-        }else if(event.target.className==="Delete"){
-        }else if(event.target.className==="Edit Cards"){
-        }else if(event.target.className==="Back"){
-        }
-    }
+
 
     deckInput=(event)=>{
         this.setState({deckName: event.target.value})
     }
 
+    deleteDeck=(event)=>{
+        event.preventDefault()
+        fetch(this.deckURL + '/'+`${this.props.deck.id}`, {
+            method: 'DELETE',
+            headers:{'content-type':'application/json', 'accept':'application/json'}
+        })
+        .then(this.props.renderData())
+        // fetch(this.deckURL+this.s)
+    }
+
+    
+
     render(){
         return(
             <div>
-                <form onClick={this.submitRes}>
+                <form >
                     <p>{this.props.deck.name}</p><br></br>
                     <input type="text" name="deckName" placeholder={this.props.deck.name} onChange={this.deckInput} value={this.state.deckName}/><br></br>
                     <input className="Submit" type="submit" value="Submit" /><br></br>
-                    <input className="Delete" type="submit" value="Delete" /><br></br>
                     <input className="Edit Cards" type="submit" value="Edit Cards" /><br></br>
-                    <input className="Back" type="submit" value="Back" /><br></br>
+                    <input className="Delete" onClick={this.deleteDeck} type="submit" value="Delete" /><br></br>
+                    <input className="Back" onClick={this.props.editDeckChild} type="submit" value="Back" /><br></br>
                 </form>
             </div>
         )

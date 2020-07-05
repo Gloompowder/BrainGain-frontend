@@ -5,6 +5,7 @@ class CardsDiv extends React.Component{
     render(){
         return(
             <div>
+                <h4>{this.props.deck.name}</h4>
                 {this.props.cards.map(card=>{
                     return(
                         card.map(eachCard=>{
@@ -13,7 +14,6 @@ class CardsDiv extends React.Component{
                                 card={eachCard} 
                                 user={this.props.user}
                                 deck={this.props.deck}
-                                toggleShow={this.props.toggleShow}
                                 />
                                 :null)
                         })
