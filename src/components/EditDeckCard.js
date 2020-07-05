@@ -24,6 +24,17 @@ class EditDeckCard extends React.Component{
         // fetch(this.deckURL+this.s)
     }
 
+    submitDeck=(event)=>{
+        event.preventDefault()
+        fetch(this.deckURL + '/'+`${this.props.deck.id}`, {
+            method: "PATCH",
+            headers:{'content-type':'application/json', 'accept':'application/json'},
+            body: JSON.stringify({user_id: this.props.user.id, name: this.state.deckName})}
+        )
+        .then(this.props.renderData())
+        .then(this.props.editDeckGeneral())
+    }
+
     
 
     render(){
@@ -32,7 +43,7 @@ class EditDeckCard extends React.Component{
                 <form >
                     <p>{this.props.deck.name}</p><br></br>
                     <input type="text" name="deckName" placeholder={this.props.deck.name} onChange={this.deckInput} value={this.state.deckName}/><br></br>
-                    <input className="Submit" type="submit" value="Submit" /><br></br>
+                    <input className="Submit" onClick={this.submitDeck} type="submit" value="Submit" /><br></br>
                     <input className="Edit Cards" type="submit" value="Edit Cards" /><br></br>
                     <input className="Delete" onClick={this.deleteDeck} type="submit" value="Delete" /><br></br>
                     <input className="Back" onClick={this.props.editDeckChild} type="submit" value="Back" /><br></br>

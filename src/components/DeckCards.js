@@ -15,6 +15,7 @@ class DeckCards extends React.Component{
         this.editDeck=this.editDeck.bind(this)
         this.toggleStudy=this.toggleStudy.bind(this)
         this.editDeckChild=this.editDeckChild.bind(this)
+        this.editDeckGeneral=this.editDeckGeneral.bind(this)
     }
 
     toggleShow(event){
@@ -36,7 +37,10 @@ class DeckCards extends React.Component{
           event.preventDefault()
           return(event.target.className === "Back" ? this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}): null)
         }
-    
+    editDeckGeneral(event){
+        event.preventDefault()
+        return(this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}))
+    }
       toggleStudy(event){
         event.preventDefault()
         return(event.target.className === "Study" ? this.state.study === false ? this.setState({...this.state, study: true}): this.setState({...this.state, study: false}): null)

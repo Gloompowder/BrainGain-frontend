@@ -61,11 +61,6 @@ class App extends React.Component{
           // .then(data=>this.setState({...this.state, currentDecks: data[0].decks, newDeck : "", createDeckForm:false})))
   }
 
-  submitEdit(event){
-    event.preventDefault()
-  }
-
-
   conditionalRenderHome(){
     if (this.state.currentUser==={}){return <Login handleClick={this.handleClick}/>}
     else if (this.state.study===true){console.log("studying")}
