@@ -25,26 +25,28 @@ class DeckCards extends React.Component{
         else {this.setState({showCards: false})}
         }
         this.state.showCards === false ? this.setState({...this.state, showCards: true}) : this.setState({...this.state, showCards: false})
-      }
+    }
     
-      editDeck(event){
+    editDeck(event){
         event.preventDefault()
         // return (event.target.className === "Edit" || event.target.className === "Back" ? this.setState({...this.state, editDeck: true }): this.setState({...this.state,}))
         return(event.target.className === "Edit" ? this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}): null)
-      }
+    }
 
-      editDeckChild(event){
-          event.preventDefault()
-          return(event.target.className === "Back" ? this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}): null)
-        }
+    editDeckChild(event){
+        event.preventDefault()
+        return(event.target.className === "Back" ? this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}): null)
+    }
+
     editDeckGeneral(event){
         event.preventDefault()
-        return(this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}))
+        return(this.props.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}))
     }
-      toggleStudy(event){
-        event.preventDefault()
-        return(event.target.className === "Study" ? this.state.study === false ? this.setState({...this.state, study: true}): this.setState({...this.state, study: false}): null)
-      }
+
+    toggleStudy(event){
+    event.preventDefault()
+    return(event.target.className === "Study" ? this.state.study === false ? this.setState({...this.state, study: true}): this.setState({...this.state, study: false}): null)
+    }
 
     conditionalRender(){
         if (this.state.showCards === true && this.state.editDeck === false && this.state.study === false){
@@ -67,7 +69,8 @@ class DeckCards extends React.Component{
                 editDeckFunction={this.editDeck}
                 editDeckChild={this.editDeckChild}
                 submitEdit={this.props.submitEdit}
-                renderData={this.props.renderData}/>
+                renderData={this.props.renderData}
+                editDeckGeneral={this.editDeckGeneral}/>
              )
         } else if(this.state.study === true && this.state.editDeck === false && this.state.showCards === false){
             return(

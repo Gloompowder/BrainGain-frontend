@@ -32,7 +32,7 @@ class EditDeckCard extends React.Component{
             body: JSON.stringify({user_id: this.props.user.id, name: this.state.deckName})}
         )
         .then(this.props.renderData())
-        .then(this.props.editDeckGeneral())
+        .then(this.props.editDeckGeneral(event))
     }
 
     
