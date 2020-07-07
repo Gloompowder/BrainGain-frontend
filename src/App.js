@@ -13,7 +13,11 @@ class App extends React.Component{
       newUser:{},
       cardOrder:[],
       newDeck:"",
-      createDeckForm: false
+      createDeckForm: false,
+      createCardForm: false,
+      newCardAnswer: "",
+      newCardQuestion: "",
+      newCardDeckID: 0
     }
     this.createDeckForm=this.createDeckForm.bind(this)
     this.newDeck=this.newDeck.bind(this)
@@ -42,10 +46,33 @@ class App extends React.Component{
       event.preventDefault()
       this.state.createDeckForm === false ? this.setState({...this.state, createDeckForm: true}) : this.setState({...this.state, createDeckForm: false})
   }
+
+  createCardForm=(event)=>{
+    event.preventDefault()
+    this.state.createCardForm === false ? this.setState({...this.state, createCardForm: true}) : this.setState({...this.state, createCardForm: false})
+  }
+
   newDeck(event){
       event.preventDefault()
       this.setState({...this.state, newDeck: event.target.value})
   }
+
+  newCardAnswer(event){
+    event.preventDefault()
+    this.setState({...this.state, newCardAnswer: event.target.value})
+  }
+
+  newCardQuestion(event){
+    event.preventDefault()
+    this.setState({...this.state, newCardQuestion: event.target.value})
+  }
+
+  newCardDeckID(event){
+    event.preventDefault()
+    this.setState({...this.state, newCardDeckID: event.target.value})
+  }
+
+
   createDeck(event){
       event.preventDefault()
       fetch(this.deckURL, {
@@ -71,6 +98,8 @@ class App extends React.Component{
     this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(element => element.id !== object.id)]})
   }
 
+  // filterOut=(object)=>{this.setState({...this.state, currentCards:[...this.state.currentCards.filter(card=>card.id !== object.id)]})}
+
   conditionalRenderHome(){
     if (this.state.currentUser==={}){return <Login handleClick={this.handleClick}/>}
     else if (this.state.study===true){console.log("studying")}
@@ -87,10 +116,19 @@ class App extends React.Component{
       renderData={this.renderData}
       patchRender={this.patchRender}
       deleteRender={this.deleteRender}
+      createCardFormFunction={this.createCardForm}
+      createCardForm={this.state.createCardForm}
+      newCardAnswer={this.state.newCardAnswer}
+      newCardQuestion={this.state.newCardQuestion}
+      newCardDeckID={this.state.newCardDeckID}
+      handleNewCardAnswer={this.newCardAnswer}
+      handlenewCardQuestion={this.newCardQuestion}
+      handlenewCardDeckID={this.newCardDeckID}
+      // filterOut={this.filterOut}
       />}
   }
 
-  render(){
+  render(){console.log(this.filterOut)
     return (
       <div>
         {this.conditionalRenderHome()}

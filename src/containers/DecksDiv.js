@@ -11,8 +11,25 @@ class DecksDiv extends React.Component{
             <input type="button" value="Submit" onClick={this.props.createDeckFunction}/>
             <input type="button" value="Back" onClick={this.props.createDeckFormFunction}/>
             </form>:
-            <input type="button" value="Create Deck Form" onClick={this.props.createDeckFormFunction}/>
-            }
+            <input type="button" value="New Deck Form" onClick={this.props.createDeckFormFunction}/>}
+            <br></br>
+            {this.props.createCardForm === true ?
+            <form>
+                <p>New Card</p>
+                <label name="New Question"  value="New Question"></label>
+                <input type="text-area" onChange={this.props.handlenewCardQuestion} placeholder="New Question" value={this.props.newCardQuestion}/>
+                <label name="New Answer"  valuue="New Answer"></label>
+                <input type="text-area" placeholder="New Answer" onChange={this.props.handleNewCardAnswer} value={this.props.newCardAnswer}/>
+                    <select name="decks" id="decks" onClick={this.props.handleNewCardID}>
+                        {this.props.decks.map(deck=><option key={deck.id} className={deck.id} value={deck.name}>{deck.name}</option>)}
+                    </select>
+                <br></br>
+                <input type="button" value="Create" />
+                <br></br>
+                <input type="button" onClick={this.props.createCardFormFunction} value="Back" />
+            </form>
+            : <input type="button" value="Create Card Form" onClick={this.props.createCardFormFunction}/>}
+
                 {this.props.decks.map(deck=>{return(deck.user_id === this.props.user.id?
                     <DeckCards 
                     key={deck.id} 

@@ -95,7 +95,10 @@ class DeckCards extends React.Component{
                 toggleEditCards={this.toggleEditCards} 
                 editDeckIndex={this.state.editDeckIndex} 
                 patchRender={this.props.patchRender}
-                deleteRender={this.props.deleteRender}/>
+                deleteRender={this.props.deleteRender}
+                createCardForm={this.props.createCardForm}
+                // filterOut={this.props.filterOut}
+                />
             )
         } else if(this.state.study === true && this.state.editDeck === false && this.state.showCards === false && this.state.editDeckIndex=== false){
             return(
