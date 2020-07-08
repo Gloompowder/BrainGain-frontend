@@ -13,18 +13,19 @@ class DecksDiv extends React.Component{
             </form>:
             <input type="button" value="New Deck Form" onClick={this.props.createDeckFormFunction}/>}
             <br></br>
-            {this.props.createCardForm === true ?
+            {this.props.createCardForm ?
             <form>
                 <p>New Card</p>
                 <label name="New Question"  value="New Question"></label>
-                <input type="text-area" onChange={this.props.handlenewCardQuestion} placeholder="New Question" value={this.props.newCardQuestion}/>
+                <input type="text-area" onChange={this.props.handleNewCardQuestion} placeholder="New Question" value={this.props.newCardQuestion}/>
                 <label name="New Answer"  valuue="New Answer"></label>
                 <input type="text-area" placeholder="New Answer" onChange={this.props.handleNewCardAnswer} value={this.props.newCardAnswer}/>
-                    <select name="decks" id="decks" onClick={this.props.handleNewCardID}>
+                    <select name="decks" id="decks" onChange={this.props.handleNewCardDeckID}>
+                        <option disabled={false}>Choose Deck</option>
                         {this.props.decks.map(deck=><option key={deck.id} className={deck.id} value={deck.name}>{deck.name}</option>)}
                     </select>
                 <br></br>
-                <input type="button" value="Create" />
+                <input type="button" value="Create" onClick={this.props.createCard}/>
                 <br></br>
                 <input type="button" onClick={this.props.createCardFormFunction} value="Back" />
             </form>

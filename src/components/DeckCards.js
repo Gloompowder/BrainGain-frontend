@@ -21,7 +21,7 @@ class DeckCards extends React.Component{
         this.toggleEditCards=this.toggleEditCards.bind(this)
     }
 
-    toggleShow(event){
+    toggleShow=(event)=>{
         event.preventDefault()
         if (event.target.className === "Cards"){
             if (this.state.showCards === false){this.setState({...this.state, showCards: true})}
@@ -30,33 +30,59 @@ class DeckCards extends React.Component{
         this.state.showCards === false ? this.setState({...this.state, showCards: true}) : this.setState({...this.state, showCards: false})
     }
     
-    editDeck(event){
+    editDeck=(event)=>{
         event.preventDefault()
         // return (event.target.className === "Edit" || event.target.className === "Back" ? this.setState({...this.state, editDeck: true }): this.setState({...this.state,}))
         return(event.target.className === "Edit" ? this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}): null)
     }
 
-    editDeckChild(event){
+    editDeckChild=(event)=>{
         event.preventDefault()
         return(event.target.className === "Back" ? this.state.editDeck === false ? this.setState({...this.state, editDeck: true}): this.setState({...this.state, editDeck: false}): null)
     }
 
-    editDeckGeneral(event){
+    editDeckGeneral=(event)=>{
         event.preventDefault()
         return(this.props.editDeck === false ? this.setState(prevState=>({...prevState, editDeck: true})): this.setState(prevState=>({...prevState, editDeck: false})))
     }
 
-    toggleStudy(event){
+    editDeckSuperGeneral=()=>{
+        this.props.editDeck === false ? this.setState(prevState=>({...prevState, editDeckIndex: true})): this.setState(prevState=>({...prevState, editDeckIndex: false}))
+    }
+
+    toggleStudy=(event)=>{
     event.preventDefault()
     return(event.target.className === "Study" ? this.state.study === false ? this.setState({...this.state, study: true}): this.setState({...this.state, study: false}): null)
     }
 
-    toggleEditCards(event){
+    toggleEditCards=(event)=>{
         event.preventDefault()
         this.state.editDeckIndex === false ? this.setState({...this.state, editDeck: false, editDeckIndex: true}): this.setState({...this.state, editDeck: true, editDeckIndex:false})
     }
 
-    conditionalRender(){
+    toggleEditCardsChild=()=>{
+        this.props.editDeckIndex === false ? this.setState({...this.state, editDeck: false, editDeckIndex: true}): this.setState({...this.state, editDeckIndex:false, editDeck:true})
+    }
+
+    handleDelete=(event)=>{
+        event.preventDefault()
+        return(this.props.card? 
+            fetch(this.cardUrl+"/"+`${this.props.card.id}`, {
+                method: "DELETE",
+                headers: {"content-type":"application/json", "accept":"application/json"},
+            })
+            .then(this.props.renderData())
+            .then(this.setState({...this.state, editDeckIndex: false}))
+            :null)
+    }
+
+    handleStudyBack=(event)=>{
+        event.preventDefault()
+        this.setState({...this.state, showCards: true, study: false})
+    }
+    
+
+    conditionalRender=()=>{
         if (this.state.showCards === true && this.state.editDeck === false && this.state.study === false&& this.state.editDeckIndex=== false){
             return(
                 <CardsDiv 
@@ -78,6 +104,11 @@ class DeckCards extends React.Component{
                     decks={this.props.decks}
                     editDeck={this.state.editDeck}
                     editDeckGeneral={this.editDeckGeneral}
+                    patchRenderCard={this.props.patchRenderCard}
+                    editDeckSuperGeneral={this.editDeckSuperGeneral}
+                    handleDelete={this.props.handleDelete}
+                    toggleEditCardsChild={this.toggleEditCardsChild}
+                    renderData={this.props.renderData}
                 />
             )
         } else if(this.state.showCards === false && this.state.editDeck === true && this.state.study === false && this.state.editDeckIndex=== false){
@@ -108,6 +139,8 @@ class DeckCards extends React.Component{
                     user={this.props.user}
                     deck={this.props.deck}
                     toggleStudy={this.toggleStudy}
+                    status={this.state}
+                    handleStudyBack={this.handleStudyBack}
                 />
             )
         } else {

@@ -15,14 +15,16 @@ class App extends React.Component{
       newDeck:"",
       createDeckForm: false,
       createCardForm: false,
-      newCardAnswer: "",
-      newCardQuestion: "",
-      newCardDeckID: 0
+      question:"",
+      answer:"",
+      deckID:0
     }
     this.createDeckForm=this.createDeckForm.bind(this)
     this.newDeck=this.newDeck.bind(this)
     this.createDeck=this.createDeck.bind(this)
-    // this.deleteDeck=this.deleteDeck.bind(this)
+    // this.newCardDeckID=this.newCardDeckID(this)
+    // this.newCardQuestion=this.newCardQuestion(this)
+    // this.newCardAnswer=this.newCardAnswer(this)
   }
 
   url = 'http://localhost:3000/api/v1/users'
@@ -57,23 +59,38 @@ class App extends React.Component{
       this.setState({...this.state, newDeck: event.target.value})
   }
 
-  newCardAnswer(event){
-    event.preventDefault()
-    this.setState({...this.state, newCardAnswer: event.target.value})
+  newCardAnswer=(event)=>{
+    this.setState({...this.state, answer: event.target.value})
   }
 
-  newCardQuestion(event){
-    event.preventDefault()
-    this.setState({...this.state, newCardQuestion: event.target.value})
+  newCardQuestion=(event)=>{
+    this.setState({...this.state, question: event.target.value})
   }
 
-  newCardDeckID(event){
+  newCardDeckID=(event)=>{
+    // this.setState({...this.state, deck_id: event.target.value})
+    // this.setState({...this.state, deck_id: this.state.currentDecks.filter(deck => deck.name === this.state.deck_id)})
+    // console.log(this.state.question, this.state.answer, this.state.deck_id)
+    // this.setState(...this.state, this.state.deck_id: this.state.currentDecks.filter(deck => deck.name === event.target.value)[0].id)
+    console.log(this.state.deckID)
+    return(event.target.value !== 0 ? this.setState({...this.state, deckID: this.state.currentDecks.filter(deck => deck.name === event.target.value)[0].id})
+    : null)
+    // return(this.state.currentDecks.filter(deck => deck.name === event.target.value)[0].id)
+  }
+
+  createCard=(event)=>{
     event.preventDefault()
-    this.setState({...this.state, newCardDeckID: event.target.value})
+    fetch("http://localhost:3000/api/v1/flashcards",{
+        method: "POST",
+        headers: {"content-type":"application/json","accept":"application/json"},
+        body: JSON.stringify({question: this.state.question, answer: this.state.answer, deck_id: this.state.deckID})
+    })
+    .then(this.renderData())
+    .then(this.setState({...this.state, createCardForm: false}))
   }
 
 
-  createDeck(event){
+  createDeck=(event)=>{
       event.preventDefault()
       fetch(this.deckURL, {
           method: "POST",
@@ -92,6 +109,10 @@ class App extends React.Component{
   patchRender=(object)=>{
     this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(element => element.id !== object.id), object]})
     // this.setState({...this.state, currentDecks: [this.state.currentDecks.map(deck => if )]})
+  }
+
+  patchRenderCard=(object)=>{
+    this.setState({...this.state, currentCards: [...this.state.currentCards.filter(element=>element.id !== object.id), object]})
   }
 
   deleteRender=(object)=>{
@@ -118,17 +139,19 @@ class App extends React.Component{
       deleteRender={this.deleteRender}
       createCardFormFunction={this.createCardForm}
       createCardForm={this.state.createCardForm}
-      newCardAnswer={this.state.newCardAnswer}
-      newCardQuestion={this.state.newCardQuestion}
-      newCardDeckID={this.state.newCardDeckID}
+      newCardAnswer={this.state.answer}
+      newCardQuestion={this.state.question}
+      newCardDeckID={this.state.deckID}
       handleNewCardAnswer={this.newCardAnswer}
-      handlenewCardQuestion={this.newCardQuestion}
-      handlenewCardDeckID={this.newCardDeckID}
-      // filterOut={this.filterOut}
+      handleNewCardQuestion={this.newCardQuestion}
+      handleNewCardDeckID={this.newCardDeckID}
+      createCard={this.createCard}
+      patchRenderCard={this.patchRenderCard}
+      handleDelete={this.handleDelete}
       />}
   }
 
-  render(){console.log(this.filterOut)
+  render(){
     return (
       <div>
         {this.conditionalRenderHome()}

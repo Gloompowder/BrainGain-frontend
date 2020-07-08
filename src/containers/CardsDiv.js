@@ -8,15 +8,17 @@ class CardsDiv extends React.Component{
                 <h4>{this.props.deck.name}</h4>
                 {this.props.cards.map(card=>{
                     return(
+                        card[0] ? 
                         card.map(eachCard=>{
                             return(eachCard.deck_id === this.props.deck.id?<CardsCard 
                                 key={eachCard.id}
                                 card={eachCard} 
                                 user={this.props.user}
                                 deck={this.props.deck}
+                                decks={this.props.decks}
                                 />
                                 :null)
-                        })
+                        }): null
                     )
                 })}
                 <button onClick={this.props.toggleShow}>Back</button>

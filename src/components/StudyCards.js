@@ -9,6 +9,10 @@ class StudyCards extends React.Component{
         event.preventDefault()
         this.state.showAnswer === false ? this.setState({showAnswer: true}): this.setState({showAnswer: false})
     }
+
+    showAnswer=()=>{
+    }
+    
     render(){
         return(
             <form>
