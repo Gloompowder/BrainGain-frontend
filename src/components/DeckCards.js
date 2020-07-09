@@ -3,6 +3,8 @@ import CardsDiv from '../containers/CardsDiv'
 import EditDeckCard from './EditDeckCard'
 import StudyDiv from '../containers/StudyDiv'
 import EditCardDiv from '../containers/EditCardDiv'
+import UnfilledHeart from '../unfilledHeart.png'
+import FilledHeart from '../filledHeart.png'
 
 class DeckCards extends React.Component{
     constructor(props){
@@ -21,6 +23,7 @@ class DeckCards extends React.Component{
         this.toggleEditCards=this.toggleEditCards.bind(this)
     }
 
+    likeButton=()=>{return(this.props.deck.like === false?<img src={FilledHeart} onClick={this.props.handleLike} alt="liked"/>:<img src={UnfilledHeart} onClick={this.props.handleLike} alt="not-liked"/>)}
 
     toggleShow=(event)=>{
         event.preventDefault()
@@ -81,6 +84,8 @@ class DeckCards extends React.Component{
         event.preventDefault()
         this.setState({...this.state, showCards: true, study: false})
     }
+
+
     
 
     conditionalRender=()=>{
@@ -148,13 +153,15 @@ class DeckCards extends React.Component{
                 />
             )
         } else {
-            return(
+            return(<card className="DeckCardStyle">
                 <form id= "DeckCard" className={`${this.props.deck.id}`} >
                 <h3>{this.props.deck.name}</h3>
+                {this.likeButton}
                 <button className="Edit" onClick={this.editDeck}>Edit</button>
                 <button className="Cards" onClick={this.toggleShow}>Cards</button>
                 <button className="Study" onClick={this.toggleStudy}>Study</button>
             </form>
+            </card>
             )
         }
     }

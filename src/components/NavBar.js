@@ -8,8 +8,7 @@ class NavBar extends React.Component{
                 <h1>Welcome, {this.props.user.username} to BrainGain</h1>
                 <img src={Logo} alt="logo"/>
                 <li>My Decks</li>
-                <li>Community</li>
-                <li onClick={this.props.handleLogout}>Logout</li>
+                {this.props.user === {}? <li onClick={this.props.handleLogout}>Login</li>:<li onClick={this.props.handleLogout}>Logout</li>}
             </ul>
         )
     }

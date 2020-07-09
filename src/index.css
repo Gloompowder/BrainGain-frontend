@@ -15,7 +15,8 @@ input [type=text]{
 }
 
 .NavBar {
-  background-color: #ffa0a0;
+
+  background-image: linear-gradient(#ffa0a0, #ff7575);
   color: white;
   filter: drop-shadow(0 5px 5px #ffa0a0);
 }
@@ -125,6 +126,7 @@ input [type=text]{
   align-content: center;
 }
 
+
 input[type=text] {
   background-color: white;
   border: #ff7575;
@@ -165,24 +167,34 @@ input, button{
   }
 
   input:hover {
+    background-color: #ff7575;
     filter: drop-shadow(0 5px 5px #ff8585);
     color: #ffecec;
     }
 
     button:hover {
+      background-color: #ff7575;
       filter: drop-shadow(0 5px 5px #ff8585);
       color: #ffecec;
       }
+
     
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+.DeckDiv form{
+  padding: 10px;
+}
 img{
   height: 10%;
   width: 10%;
   position: x=70% y=70%;
+}
+
+.DeckCard{
+  margin-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 

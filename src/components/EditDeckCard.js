@@ -43,7 +43,7 @@ class EditDeckCard extends React.Component{
         return(
             <div>
                 <form >
-                    <p>{this.props.deck.name}</p><br></br>
+                    <h3>{this.props.deck.name}</h3><br></br>
                     <input type="text" name="deckName" placeholder={this.props.deck.name} onChange={this.deckInput} value={this.state.deckName}/><br></br>
                     <input className="Submit" onClick={this.submitDeck} type="submit" value="Submit" /><br></br>
                     <input className="Edit Cards" onClick={this.props.toggleEditCards} type="submit" value="Edit Cards" /><br></br>

@@ -17,7 +17,8 @@ class App extends React.Component{
       createCardForm: false,
       question:"",
       answer:"",
-      deckID:0
+      deckID:0,
+      home: false
     }
     this.createDeckForm=this.createDeckForm.bind(this)
     this.newDeck=this.newDeck.bind(this)
@@ -44,6 +45,17 @@ class App extends React.Component{
     this.setState({...this.state, currentCards: [...[...this.state.currentCards].map(deckCards=> deckCards[0] ? deckCards.filter(deck=>deck.id !== object.id): [...this.state.currentCards].filter(deck=>deck.id !== object.id)), object]})
     console.log(this.state.currentCards)
   }
+
+    handleLike=(event)=>{
+      event.preventDefault()
+      fetch("http://localhost:3000/api/v1/decks"+'/'+ `${this.props.deck.id}`,{
+        method: "PATCH",
+        headers:{"content-type":"application/json", "accept":"application/json"},
+        body: JSON.stringify({name: this.props.deck.name, id: this.props.deck.id, user_id: this.props.deck.user_id, like: this.props.deck.like === true ? false:true})
+      })
+      .then(r=>r.json())
+      .then(data=>this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(deck=> deck.id === data.id), data]}))
+    }
 
   componentDidMount(){
     fetch(this.url)
@@ -106,7 +118,7 @@ class App extends React.Component{
       fetch(this.deckURL, {
           method: "POST",
           headers: {"content-type":"application/json", "accept":"application/json"},
-          body: JSON.stringify({name: this.state.newDeck, user_id: this.state.currentUser.id})})
+          body: JSON.stringify({name: this.state.newDeck, like: false, user_id: this.state.currentUser.id})})
           .then(
             fetch(this.url)
             .then(r=>r.json())
@@ -135,6 +147,10 @@ class App extends React.Component{
     this.setState({...this.state, currentUser: {}})
   }
 
+  toggleHome=()=>{this.state.home === false ? this.setState({...this.state, home: true}): this.setState({...this.state, home: false})}
+
+
+
   // handleCommunity=(event)=>{
   //   event.preventDefault()
   //   this.state.community === false ? this.setState({...this.state, community: true, })
@@ -143,8 +159,7 @@ class App extends React.Component{
   // filterOut=(object)=>{this.setState({...this.state, currentCards:[...this.state.currentCards.filter(card=>card.id !== object.id)]})}
 
   conditionalRenderHome(){
-    if (this.state.currentUser==={}){return <Login handleClick={this.handleClick}/>}
-    else if (this.state.study===true){console.log("studying")}
+    if (this.state.currentUser==={}){return <Login handleClick={this.handleClick} user={this.state.currentUser}/>}
     else {return <Home 
       user={this.state.currentUser}
       decks={this.state.currentDecks}
@@ -172,6 +187,7 @@ class App extends React.Component{
       handleLogout={this.handleLogout}
       deleteCard={this.deleteCard}
       submitCard={this.submitCard}
+      handleLike={this.handleLike}
       />}
   }
 
