@@ -6,13 +6,18 @@ class EditCardDiv extends React.Component{
         cardArray:[]
     }
     render(){console.log(this.props.status)
+        const cardArray = this.props.cards.flatMap(thing=>{
+            if (Array.isArray(thing)){
+                return(thing)
+            }
+            else{
+                return[thing]
+            }
+        })
         return(
             <div className="EditCardDiv">
                 <h4>{this.props.deck.name}</h4>
-                {this.props.cards.map(card=>{
-                    card[0] ? this.setState({cardArray: [...this.state.cardArray, [...card]]}) : null
-                    card[0] !== true ? this.setState({cardArray: [...this.state.cardArray, card]}): null
-                        this.state.cardArray.map(eachCard=>{
+                        {cardArray.map(eachCard=>{
                             return(eachCard.deck_id === this.props.deck.id?<EditCardCards
                                 key={eachCard.id}
                                 card={eachCard} 
@@ -30,9 +35,7 @@ class EditCardDiv extends React.Component{
                                 submitCard={this.props.submitCard}
                                 />
                                 :null)
-                        })
-
-                })}
+                        })}
                 <button onClick={this.props.toggleEditCards}>Back</button>
         </div>
         )
