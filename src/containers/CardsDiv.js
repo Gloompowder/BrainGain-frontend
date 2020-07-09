@@ -2,25 +2,27 @@ import React from 'react'
 import CardsCard from '../components/CardsCard'
 
 class CardsDiv extends React.Component{
-    render(){
+    state={
+        cardArray:[]
+    }
+    render(){console.log(this.props.cards)
         return(
-            <div>
+            <div className="Cards">
                 <h4>{this.props.deck.name}</h4>
                 {this.props.cards.map(card=>{
-                    return(
-                        card[0] ? 
-                        card.map(eachCard=>{
-                            return(eachCard.deck_id === this.props.deck.id?<CardsCard 
-                                key={eachCard.id}
-                                card={eachCard} 
-                                user={this.props.user}
-                                deck={this.props.deck}
-                                decks={this.props.decks}
-                                />
-                                :null)
-                        }): null
-                    )
-                })}
+                    card[0] ? this.setState({cardArray: [...this.state.cardArray, [...card]]}) : null
+                    card[0] !== true ? this.setState({cardArray: [...this.state.cardArray, card]}): null
+                            this.state.cardArray.map(eachCard=>{
+                                return(eachCard.deck_id === this.props.deck.id?<CardsCard 
+                                    key={eachCard.id}
+                                    card={eachCard} 
+                                    user={this.props.user}
+                                    deck={this.props.deck}
+                                    decks={this.props.decks}
+                                    />
+                                    :null)
+                            })
+                    })}
                 <button onClick={this.props.toggleShow}>Back</button>
             </div>
         )

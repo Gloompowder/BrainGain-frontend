@@ -5,16 +5,17 @@ class DecksDiv extends React.Component{
     render(){
         return( <div className="DeckDiv">
             {this.props.createDeckForm === true ? 
-            <form>
+            <form className="New-Deck-Form">
             <p>New Deck</p>
             <input type="text" name="newDeck" onChange={this.props.newDeckFunction} value={this.props.newDeck}></input>
+            <br></br>
             <input type="button" value="Submit" onClick={this.props.createDeckFunction}/>
             <input type="button" value="Back" onClick={this.props.createDeckFormFunction}/>
             </form>:
             <input type="button" value="New Deck Form" onClick={this.props.createDeckFormFunction}/>}
             <br></br>
             {this.props.createCardForm ?
-            <form>
+            <form className="New-Card-Form">
                 <p>New Card</p>
                 <label name="New Question"  value="New Question"></label>
                 <input type="text-area" onChange={this.props.handleNewCardQuestion} placeholder="New Question" value={this.props.newCardQuestion}/>

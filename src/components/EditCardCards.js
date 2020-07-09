@@ -26,7 +26,6 @@ class EditCardCards extends React.Component{
     handleSelect=(event)=>{
         event.preventDefault()
         event.target.value !== this.props.deck.name? this.setState({...this.state, deck_id: this.props.decks.filter(deck=> deck.name === event.target.value)[0].id}): this.setState({...this.state, deck_id: this.props.deck.id})
-        console.log(this.state.deck_id)
     }
 
     // newCardDeckID=(event)=>{
@@ -66,13 +65,13 @@ class EditCardCards extends React.Component{
     showURL="http://localhost:3000/api/v1/flashcards"+'/'+`${this.props.card.id}`
     handleSubmit=(event)=>{
         event.preventDefault()
-        console.log(this.showURL)
         fetch(this.showURL, {
             method: "PATCH",
             headers: {"content-type":"application/json", "accept":"application/json"},
             body: JSON.stringify({question: this.state.question, answer: this.state.answer, deck_id: this.state.deck_id})
         })
-        .then(this.props.renderData())
+        .then(r=>r.json())
+        .then(data=>this.props.submitCard(data))
         .then(this.props.toggleEditCardsChild())
         // console.log(this.state)
     }
@@ -84,14 +83,16 @@ class EditCardCards extends React.Component{
                 method: "DELETE",
                 headers: {"content-type":"application/json", "accept":"application/json"},
             })
-            .then(this.props.renderData())
+            .then(r=>r.json())
+            .then(data=>this.props.deleteCard(data))
+            .then(this.props.toggleEditCardsChild())
+
             // .then(this.props.toggleEditCardsChild())
         :null)
     }
 
     // otherDecks=()=>{this.props.decks.filter(otherDeck=>otherDeck.id!==this.props.card.deck_id).map(deck=>{return(<option className={deck.user_id} value={"Deck" + deck + ": " + deck.name}/>)})}
 
-    submitEdit(){}
     render(){
         return(
             <div>

@@ -2,14 +2,17 @@ import React from 'react'
 import EditCardCards from '../components/EditCardCards.js'
 
 class EditCardDiv extends React.Component{
-    render(){
+    state={
+        cardArray:[]
+    }
+    render(){console.log(this.props.status)
         return(
-            <div>
+            <div className="EditCardDiv">
                 <h4>{this.props.deck.name}</h4>
                 {this.props.cards.map(card=>{
-                    return(
-                        card[0] ? 
-                        card.map(eachCard=>{
+                    card[0] ? this.setState({cardArray: [...this.state.cardArray, [...card]]}) : null
+                    card[0] !== true ? this.setState({cardArray: [...this.state.cardArray, card]}): null
+                        this.state.cardArray.map(eachCard=>{
                             return(eachCard.deck_id === this.props.deck.id?<EditCardCards
                                 key={eachCard.id}
                                 card={eachCard} 
@@ -23,10 +26,12 @@ class EditCardDiv extends React.Component{
                                 handleDelete={this.props.handleDelete}
                                 toggleEditCardsChild={this.props.toggleEditCardsChild}
                                 renderData={this.props.renderData}
+                                deleteCard={this.props.deleteCard}
+                                submitCard={this.props.submitCard}
                                 />
                                 :null)
-                        }): null
-                    )
+                        })
+
                 })}
                 <button onClick={this.props.toggleEditCards}>Back</button>
         </div>

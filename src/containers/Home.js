@@ -6,7 +6,7 @@ class Home extends React.Component{
     render(){
         return(
             <div>
-                <NavBar user={this.props.user}/>
+                <NavBar user={this.props.user} handleLogout={this.props.handleLogout}/>
                 <DeckDiv {...this.props}/>
             </div>
         )

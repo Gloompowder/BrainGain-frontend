@@ -1,15 +1,15 @@
 import React from 'react'
+import Logo from '../logo.png'
 
 class NavBar extends React.Component{
     render(){
         return(
-            <ul>
-                <h1>Welcome, {this.props.user.username}</h1>
+            <ul className="NavBar">
+                <h1>Welcome, {this.props.user.username} to BrainGain</h1>
+                <img src={Logo} alt="logo"/>
                 <li>My Decks</li>
                 <li>Community</li>
-                <li>New Card</li>
-                <li>New Deck</li>
-                <li>Logout</li>
+                <li onClick={this.props.handleLogout}>Logout</li>
             </ul>
         )
     }

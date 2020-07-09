@@ -21,6 +21,7 @@ class DeckCards extends React.Component{
         this.toggleEditCards=this.toggleEditCards.bind(this)
     }
 
+
     toggleShow=(event)=>{
         event.preventDefault()
         if (event.target.className === "Cards"){
@@ -52,7 +53,7 @@ class DeckCards extends React.Component{
 
     toggleStudy=(event)=>{
     event.preventDefault()
-    return(event.target.className === "Study" ? this.state.study === false ? this.setState({...this.state, study: true}): this.setState({...this.state, study: false}): null)
+    this.state.study === false ? this.setState({...this.state, editDeck: false, study: true}): this.setState({...this.state, editDeck: true, study: false})
     }
 
     toggleEditCards=(event)=>{
@@ -109,6 +110,9 @@ class DeckCards extends React.Component{
                     handleDelete={this.props.handleDelete}
                     toggleEditCardsChild={this.toggleEditCardsChild}
                     renderData={this.props.renderData}
+                    deleteCard={this.props.deleteCard}
+                    submitCard={this.props.submitCard}
+                    status={this.state}
                 />
             )
         } else if(this.state.showCards === false && this.state.editDeck === true && this.state.study === false && this.state.editDeckIndex=== false){
@@ -145,7 +149,7 @@ class DeckCards extends React.Component{
             )
         } else {
             return(
-                <form className={`${this.props.deck.id}`} >
+                <form id= "DeckCard" className={`${this.props.deck.id}`} >
                 <h3>{this.props.deck.name}</h3>
                 <button className="Edit" onClick={this.editDeck}>Edit</button>
                 <button className="Cards" onClick={this.toggleShow}>Cards</button>
@@ -158,7 +162,7 @@ class DeckCards extends React.Component{
 
     render(){
         return(
-        <div>
+        <div className="DeckCard">
             {this.conditionalRender()}
         </div>
         )

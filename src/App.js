@@ -31,6 +31,19 @@ class App extends React.Component{
 
   deckURL="http://localhost:3000/api/v1/decks"
 
+  cardUrl="http:localhost:3000/api/v1/cards"
+
+  deleteCard=(object)=>{
+
+    this.setState({...this.state, currentCards: [...this.state.currentCards].map(decksCards=>decksCards.filter(card => card.id !== object.id))})
+
+  }
+
+  submitCard=(object)=>{
+
+    this.setState({...this.state, currentCards: [...[...this.state.currentCards].map(deckCards=> deckCards[0] ? deckCards.filter(deck=>deck.id !== object.id): [...this.state.currentCards].filter(deck=>deck.id !== object.id)), object]})
+    console.log(this.state.currentCards)
+  }
 
   componentDidMount(){
     fetch(this.url)
@@ -72,7 +85,6 @@ class App extends React.Component{
     // this.setState({...this.state, deck_id: this.state.currentDecks.filter(deck => deck.name === this.state.deck_id)})
     // console.log(this.state.question, this.state.answer, this.state.deck_id)
     // this.setState(...this.state, this.state.deck_id: this.state.currentDecks.filter(deck => deck.name === event.target.value)[0].id)
-    console.log(this.state.deckID)
     return(event.target.value !== 0 ? this.setState({...this.state, deckID: this.state.currentDecks.filter(deck => deck.name === event.target.value)[0].id})
     : null)
     // return(this.state.currentDecks.filter(deck => deck.name === event.target.value)[0].id)
@@ -83,10 +95,9 @@ class App extends React.Component{
     fetch("http://localhost:3000/api/v1/flashcards",{
         method: "POST",
         headers: {"content-type":"application/json","accept":"application/json"},
-        body: JSON.stringify({question: this.state.question, answer: this.state.answer, deck_id: this.state.deckID})
-    })
-    .then(this.renderData())
-    .then(this.setState({...this.state, createCardForm: false}))
+        body: JSON.stringify({question: this.state.question, answer: this.state.answer, deck_id: this.state.deckID, name: ""})
+    }).then(r=>r.json())
+    .then(data=>this.setState({...this.state, createCardForm: false, currentCards:[...this.state.currentCards, data]}))
   }
 
 
@@ -119,6 +130,16 @@ class App extends React.Component{
     this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(element => element.id !== object.id)]})
   }
 
+  handleLogout=(event)=>{
+    event.preventDefault()
+    this.setState({...this.state, currentUser: {}})
+  }
+
+  // handleCommunity=(event)=>{
+  //   event.preventDefault()
+  //   this.state.community === false ? this.setState({...this.state, community: true, })
+  // }
+
   // filterOut=(object)=>{this.setState({...this.state, currentCards:[...this.state.currentCards.filter(card=>card.id !== object.id)]})}
 
   conditionalRenderHome(){
@@ -148,6 +169,9 @@ class App extends React.Component{
       createCard={this.createCard}
       patchRenderCard={this.patchRenderCard}
       handleDelete={this.handleDelete}
+      handleLogout={this.handleLogout}
+      deleteCard={this.deleteCard}
+      submitCard={this.submitCard}
       />}
   }
 

@@ -4,7 +4,8 @@ import StudyCards from '../components/StudyCards'
 class StudyDiv extends React.Component{
     state={
         randomizedCards:[],
-        splice:0
+        splice:0,
+        cardArray:[]
     }
 
 
@@ -25,11 +26,12 @@ class StudyDiv extends React.Component{
       
         return array;
     }
-    deckCards=()=>{this.setState({...this.state, randomizedCards: this.shuffle(this.props.cards.filter(card =>card.deck_id === this.props.deck.id))})}
 
-    didComponentMount(){
-        this.deckCards()
-    }
+    // deckCards=()=>{this.setState({...this.state, randomizedCards: this.shuffle(this.props.cards.map(deckCards=>deckCards.filter(card =>card.deck_id === this.props.deck.id)))})}
+
+    // didComponentMount(){
+    //     this.deckCards()
+    // }
     previousButton=(event)=>{
         event.preventDefault()
         this.state.splice > 0 ? this.setState({...this.state, splice: this.state.splice - 1}) : this.setState({...this.state, splice: 0})
@@ -40,15 +42,14 @@ class StudyDiv extends React.Component{
         this.state.splice < this.randomizedCards.length ? this.setState({...this.state, splice: this.state.splice + 1}) : this.setState({...this.state, splice: this.state.randomizedCards.length})
     }
 
-    render(){console.log(this.props.status)
+    render(){console.log(this.props)
         return(
             <div>
                 <h4>{this.props.deck.name}</h4>
                 {this.props.cards.map(card=>{
-                    return(
-                        card[0]? 
-                        card.map(eachCard=>{
-
+                    card[0] ? this.setState({cardArray: [...this.state.cardArray, [...card]]}) : null
+                    card[0] !== true ? this.setState({cardArray: [...this.state.cardArray, card]}): null
+                        this.state.cardArray.map(eachCard=>{
                             return(eachCard.deck_id === this.props.deck.id && eachCard === this.state.randomizedCards[this.state.splice]?
                             <StudyCards
                                 key={eachCard.id}
@@ -59,12 +60,10 @@ class StudyDiv extends React.Component{
                                 splice={this.state.splice}
                                 />
                                 :null)
+                        })
 
-
-                        }): null
-                    )
                 })}
-                <button className="BacktoDeck" onClick={this.props.handleStudyBack}>Back</button>
+                <button className="BacktoDeck" onClick={this.props.toggleStudy}>Back</button>
             </div>
         )
     }
