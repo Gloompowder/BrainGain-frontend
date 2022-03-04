@@ -11,8 +11,14 @@ class CardsCard extends React.Component{
     }
     render(){
         return(
-            <form>
-                <h3>{this.state.showAnswer === false ? this.props.card.question : this.props.card.answer}</h3>
+            <form className="CardsCards">
+                {/* <h3>{this.state.showAnswer === false ? this.props.card.question : this.props.card.answer}</h3> */}
+                <div className="scene">
+                <div className="card" style={{transform: `rotateY(${this.state.showAnswer ? 180 : 0 }deg)`}}>
+                    <div className="card__face card__front">{this.props.card.question}</div>
+                    <div className="card__face card__back">{this.props.card.answer}</div>
+                </div>
+                </div>
                 <button onClick={this.toggleAnswer}>{this.state.showAnswer === false ? "Show Answer":"Show Question"}</button>
             </form>
         )

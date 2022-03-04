@@ -153,7 +153,7 @@ class DeckCards extends React.Component{
                 />
             )
         } else {
-            return(<card className="DeckCardStyle">
+            return(<div className="DeckCardStyle">
                 <form id= "DeckCard" className={`${this.props.deck.id}`} >
                 <h3>{this.props.deck.name}</h3>
                 {this.likeButton}
@@ -161,7 +161,7 @@ class DeckCards extends React.Component{
                 <button className="Cards" onClick={this.toggleShow}>Cards</button>
                 <button className="Study" onClick={this.toggleStudy}>Study</button>
             </form>
-            </card>
+            </div>
             )
         }
     }

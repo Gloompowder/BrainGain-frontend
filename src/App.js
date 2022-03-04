@@ -18,7 +18,11 @@ class App extends React.Component{
       question:"",
       answer:"",
       deckID:0,
-      home: false
+      home: false,
+      community: false,
+      allDecks:[],
+      allCards:[],
+      allUsers:[]
     }
     this.createDeckForm=this.createDeckForm.bind(this)
     this.newDeck=this.newDeck.bind(this)
@@ -46,16 +50,16 @@ class App extends React.Component{
     console.log(this.state.currentCards)
   }
 
-    handleLike=(event)=>{
-      event.preventDefault()
-      fetch("http://localhost:3000/api/v1/decks"+'/'+ `${this.props.deck.id}`,{
-        method: "PATCH",
-        headers:{"content-type":"application/json", "accept":"application/json"},
-        body: JSON.stringify({name: this.props.deck.name, id: this.props.deck.id, user_id: this.props.deck.user_id, like: this.props.deck.like === true ? false:true})
-      })
-      .then(r=>r.json())
-      .then(data=>this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(deck=> deck.id === data.id), data]}))
-    }
+  handleLike=(event)=>{
+    event.preventDefault()
+    fetch("http://localhost:3000/api/v1/decks"+'/'+ `${this.props.deck.id}`,{
+      method: "PATCH",
+      headers:{"content-type":"application/json", "accept":"application/json"},
+      body: JSON.stringify({name: this.props.deck.name, id: this.props.deck.id, user_id: this.props.deck.user_id, like: this.props.deck.like === true ? false:true})
+    })
+    .then(r=>r.json())
+    .then(data=>this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(deck=> deck.id === data.id), data]}))
+  }
 
   componentDidMount(){
     fetch(this.url)
@@ -129,6 +133,12 @@ class App extends React.Component{
           // .then(data=>this.setState({...this.state, currentDecks: data[0].decks, newDeck : "", createDeckForm:false})))
   }
 
+  renderCommunity=()=>{
+    fetch(this.deckURL)
+    .then(r=>r.json())
+    .then(data=> this.setState({...this.state, allDecks: data.decks, allCards: data.cards}))
+  }
+
   patchRender=(object)=>{
     this.setState({...this.state, currentDecks: [...this.state.currentDecks.filter(element => element.id !== object.id), object]})
     // this.setState({...this.state, currentDecks: [this.state.currentDecks.map(deck => if )]})
@@ -149,12 +159,27 @@ class App extends React.Component{
 
   toggleHome=()=>{this.state.home === false ? this.setState({...this.state, home: true}): this.setState({...this.state, home: false})}
 
+  toggleCommunity=()=>{this.state.community === false ? this.setState({...this.state, community: true}): this.setState({...this.state, community: false})}
+
+  renderAllUsers=()=>{
+    fetch(this.url)
+    .then(r=>r.json())
+    .then(data=>this.setState({...this.state, allUsers: data.users}))
+  }
+
+  handleCommunity=(event)=>{
+    event.preventDefault()
+    this.state.community === false ? this.setState({...this.state, community: true }): this.setState({...this.state, community: false})
+  }
+
+  communityTrue=(event)=>{
+    event.preventDefault()
+    this.setState(this.setState({...this.state, community: true}))}
 
 
-  // handleCommunity=(event)=>{
-  //   event.preventDefault()
-  //   this.state.community === false ? this.setState({...this.state, community: true, })
-  // }
+  communityFalse=(event)=>{
+      event.preventDefault()
+      this.setState(this.setState({...this.state, community: false}))}
 
   // filterOut=(object)=>{this.setState({...this.state, currentCards:[...this.state.currentCards.filter(card=>card.id !== object.id)]})}
 
@@ -188,6 +213,13 @@ class App extends React.Component{
       deleteCard={this.deleteCard}
       submitCard={this.submitCard}
       handleLike={this.handleLike}
+      community={this.state.community}
+      allCards={this.state.allCards}
+      allDecks={this.state.allDecks}
+      toggleCommunity={this.toggleCommunity}
+      allUsers={this.state.allUsers}
+      communityTrue={this.communityTrue}
+      communityFalse={this.communityFalse}
       />}
   }
 

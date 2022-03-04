@@ -8,6 +8,10 @@ body {
   background-color: rgb(255, 255, 255);
 }
 
+.DeckDiv{
+  background-color: white;
+}
+
 input [type=text]{
   background-color: white;
   color: #ff7575;
@@ -16,7 +20,7 @@ input [type=text]{
 
 .NavBar {
 
-  background-image: linear-gradient(#ffa0a0, #ff7575);
+  background-image: linear-gradient(#ffa0a0, #ff8c8c);
   color: white;
   filter: drop-shadow(0 5px 5px #ffa0a0);
 }
@@ -82,6 +86,7 @@ input [type=text]{
 
   color: #ffa0a0;
 }
+
 
 .New-Card-Form{
   background-color: #ffa0a0;
@@ -193,9 +198,46 @@ img{
 }
 
 .DeckCard{
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-bottom: 30px;
 }
+
+.scene {
+  width: 400px;
+  height: 260px;
+  perspective: 1000px;
+  margin:20px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform .75s;
+  transform-style: preserve-3d;
+}
+
+.card__face {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(#fff1f1, #ffe3e3);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+.card__front {
+  font-size: large;
+  font-weight: bold;
+}
+
+.card__back {
+  transform: rotateY( 180deg );
+}
+
 
 
 
